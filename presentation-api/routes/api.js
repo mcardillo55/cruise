@@ -6,9 +6,12 @@ const Presentation = require('../models/presentation')
 router.get('/presentations', function(req, res, next) {
   Presentation.findAll({
     attributes: ["id", "title", "presenter"]
-})
-.then((rows) => {
+  })
+  .then((rows) => {
     res.send(rows)
+  })
+  .catch((error) => {
+    res.send([])
   })
 });
 
