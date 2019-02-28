@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
+import Modal from 'react-bootstrap/Modal'
 
 class PresentationList extends Component {
     constructor(props) {
         super(props);
+
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+
         this.state = {
+            showModal: false,
+            modalKey: 0,
             error: null,
             isLoaded: false,
             presentations: []
@@ -28,6 +35,15 @@ class PresentationList extends Component {
             }
         )
     }
+    handleShow(i) {
+        this.setState({
+            showModal: true,
+            modalKey: i
+        });
+    }
+    handleClose() {
+        this.setState({ showModal: false });
+    }
     render() {
         const { error, isLoaded, presentations } = this.state
         if (error) {
@@ -36,6 +52,7 @@ class PresentationList extends Component {
             return <div>Loading...</div>
         } else {
             return (
+                <>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -44,9 +61,9 @@ class PresentationList extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {presentations.map((item) => {
+                        {presentations.map((item, i) => {
                             return(
-                                <tr>
+                                <tr key={i} onClick={() => this.handleShow(i)}>
                                     <th>{item.title}</th>
                                     <th>{item.presenter}</th>
                                 </tr>
@@ -54,6 +71,14 @@ class PresentationList extends Component {
                         })}
                     </tbody>
                 </Table>
+
+                <Modal show={this.state.showModal} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>{this.state.presentations[this.state.modalKey].title}</Modal.Body>
+                </Modal>
+                </>
             )
         }
     }
