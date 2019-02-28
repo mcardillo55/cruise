@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form'
 import YesNoRadio from './YesNoRadio'
 import RatingInput from './RatingInput'
+import ExpandingTextInput from './ExpandingTextInput'
 
 class SurveyForm extends Component {
     render(){
@@ -9,10 +10,7 @@ class SurveyForm extends Component {
             <Form>
                 <YesNoRadio label="Was the talk interesting?" name="interesting" />
                 <YesNoRadio label="Was there enough seating for the talk?" name="seating" />
-                <Form.Group>
-                    <Form.Label>Links provided during talk:</Form.Label>
-                    <Form.Control />
-                </Form.Group>
+                <ExpandingTextInput label="Links provided during talk:" />
                 <Form.Group>
                     <Form.Label>What specific topics in the talk were interesting?</Form.Label>
                     <Form.Control />
