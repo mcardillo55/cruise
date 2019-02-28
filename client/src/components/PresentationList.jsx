@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 import Modal from 'react-bootstrap/Modal'
+import SurveyForm from './SurveyForm'
 
 class PresentationList extends Component {
     constructor(props) {
@@ -72,11 +73,13 @@ class PresentationList extends Component {
                     </tbody>
                 </Table>
 
-                <Modal show={this.state.showModal} onHide={this.handleClose}>
+                <Modal size="lg" show={this.state.showModal} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>{this.state.presentations[this.state.modalKey].title}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{this.state.presentations[this.state.modalKey].title}</Modal.Body>
+                    <Modal.Body>
+                        <SurveyForm />
+                    </Modal.Body>
                 </Modal>
                 </>
             )
