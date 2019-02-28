@@ -3,7 +3,7 @@ var router = express.Router();
 const Presentation = require('../models/presentation')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/presentations', function(req, res, next) {
   Presentation.findAll({
     attributes: ["id", "title", "presenter"]
 })
