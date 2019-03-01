@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Table from 'react-bootstrap/Table'
 import Modal from 'react-bootstrap/Modal'
-import SurveyForm from './SurveyForm'
+import SurveyForm from '../components/SurveyForm'
 
 class PresentationList extends Component {
     constructor(props) {

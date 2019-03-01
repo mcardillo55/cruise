@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container'
-import PresentationList from './components/PresentationList'
+import PresentationList from './containers/PresentationList'
 import './App.css';
 
 class App extends Component {
