@@ -50,13 +50,12 @@ class PresentationList extends Component {
         if(name.startsWith('links')) {
             let i = name.split('-')[1];
             if(!prevState[this.state.modalKey]['links']){
-                prevState[this.state.modalKey]['links'] = [value]
+                prevState[this.state.modalKey]['links'] = [value, ""]
             } else {
-                if(prevState[this.state.modalKey]['links'].length <= i) {
-                    prevState[this.state.modalKey]['links'].push(value) 
-                } else {
-                    prevState[this.state.modalKey]['links'][i] = value
-                }
+                prevState[this.state.modalKey]['links'][i] = value;
+            }
+            if(prevState[this.state.modalKey]['links'].length - 1 == i) {
+                prevState[this.state.modalKey]['links'].push("")
             }
         } else {
             prevState[this.state.modalKey] = {...this.state.formData[this.state.modalKey], [name]: value}
@@ -108,7 +107,7 @@ class PresentationList extends Component {
                         <Modal.Title>{this.state.presentations[this.state.modalKey].title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <SurveyForm onChange={this.handleChange}/>
+                        <SurveyForm data={this.state.formData[this.state.modalKey]} onChange={this.handleChange}/>
                     </Modal.Body>
                 </Modal>
                 </>
