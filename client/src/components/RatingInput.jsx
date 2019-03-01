@@ -8,7 +8,7 @@ class RatingInput extends Component {
     generateRadioButtons(start=1, end=10) {
         let radios = []
         for(let i=start; i<=end; i++) {    
-            radios.push(<Form.Check inline type="radio" label={i} name="rating" />);
+            radios.push(<Form.Check inline type="radio" label={i} value={i} name="rating" onChange={this.props.onChange}/>);
         }
         return radios
     }

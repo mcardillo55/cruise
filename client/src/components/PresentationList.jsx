@@ -7,6 +7,7 @@ class PresentationList extends Component {
     constructor(props) {
         super(props);
 
+        this.handleChange = this.handleChange.bind(this)
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
 
@@ -15,7 +16,8 @@ class PresentationList extends Component {
             modalKey: 0,
             error: null,
             isLoaded: false,
-            presentations: []
+            presentations: [],
+            formData: []
         };
     }
     componentDidMount() {
@@ -25,7 +27,8 @@ class PresentationList extends Component {
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    presentations: result
+                    presentations: result,
+                    formData: Array(result.length)
                 })
             },
             (error) => {
@@ -35,6 +38,33 @@ class PresentationList extends Component {
                 })
             }
         )
+    }
+    handleChange(event) {
+        let {type, name, checked, value} = event.target;
+        let prevState = [...this.state.formData];
+
+        if(!prevState[this.state.modalKey]) {
+            prevState[this.state.modalKey] = {}
+        }
+
+        if(name.startsWith('links')) {
+            let i = name.split('-')[1];
+            if(!prevState[this.state.modalKey]['links']){
+                prevState[this.state.modalKey]['links'] = [value]
+            } else {
+                if(prevState[this.state.modalKey]['links'].length <= i) {
+                    prevState[this.state.modalKey]['links'].push(value) 
+                } else {
+                    prevState[this.state.modalKey]['links'][i] = value
+                }
+            }
+        } else {
+            prevState[this.state.modalKey] = {...this.state.formData[this.state.modalKey], [name]: value}
+        }
+
+        this.setState({
+            formData: prevState
+        })
     }
     handleShow(i) {
         this.setState({
@@ -78,7 +108,7 @@ class PresentationList extends Component {
                         <Modal.Title>{this.state.presentations[this.state.modalKey].title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <SurveyForm />
+                        <SurveyForm onChange={this.handleChange}/>
                     </Modal.Body>
                 </Modal>
                 </>
