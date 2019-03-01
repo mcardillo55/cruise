@@ -1,6 +1,7 @@
 const cheerio = require('cheerio')
 const request = require('request')
 const Presentation = require('../models/presentation')
+const Survey = require('../models/survey') // included to initalize table
 const sequelize = require('../db/sequelize')
 
 request('https://shmoocon.org/2018/12/13/2019-speaker-line-up/', function(err, res, body) {
