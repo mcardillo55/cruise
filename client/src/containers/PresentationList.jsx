@@ -42,9 +42,8 @@ class PresentationList extends Component {
     handleChange(event) {
         let {type, name, checked, value} = event.target;
         let prevState = [...this.state.formData];
-
         if(!prevState[this.state.modalKey]) {
-            prevState[this.state.modalKey] = {}
+            prevState[this.state.modalKey] = {"presentationID": this.state.presentations[this.state.modalKey].id}
         }
 
         if(name.startsWith('links')) {
@@ -58,9 +57,8 @@ class PresentationList extends Component {
                 prevState[this.state.modalKey]['links'].push("")
             }
         } else {
-            prevState[this.state.modalKey] = {...this.state.formData[this.state.modalKey], [name]: value}
+            prevState[this.state.modalKey] = {...prevState[this.state.modalKey], [name]: value}
         }
-
         this.setState({
             formData: prevState
         })
