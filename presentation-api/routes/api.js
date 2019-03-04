@@ -22,12 +22,12 @@ router.post('/presentations', function(req, res, next) {
   if(req.body.links){
     req.body.links = req.body.links.join(' ')
   }
-  Survey.create(req.body)
+  Survey.upsert(req.body)
   res.send(req.body)
 });
 
 router.get('/survey', function(req, res, next) {
-  let options = { attributes: { exclude: ['id', 'createdAt', 'updatedAt'] } }
+  let options = { attributes: { exclude: ['createdAt', 'updatedAt'] } }
   if(req.query.id) {
     options = {...options, where: { presentationID: req.query.id } }
   }
