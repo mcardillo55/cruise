@@ -14,8 +14,8 @@ class ExpandingTextInput extends Component {
         let controls = []
         for(let i=0; i<numControls; i++) {
             controls.push(
-                <Form.Group>
-                    <Form.Control value={formData[i]} key={i} name={'links-' + i} onChange={this.props.onChange} />
+                <Form.Group key={i}>
+                    <Form.Control value={formData[i]} name={'links-' + i} onChange={this.props.onChange} />
                 </Form.Group>
             )
         }

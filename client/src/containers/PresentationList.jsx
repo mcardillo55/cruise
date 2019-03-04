@@ -47,20 +47,23 @@ class PresentationList extends Component {
         )
     }
     handleChange(event) {
-        let {type, name, checked, value} = event.target;
+        let {name, value} = event.target;
         let prevState = [...this.state.formData];
+        if(name === 'rating') {
+            value = parseInt(value) 
+        }
         if(!prevState[this.state.modalKey]) {
             prevState[this.state.modalKey] = {"presentationID": this.state.presentations[this.state.modalKey].id}
         }
 
         if(name.startsWith('links')) {
-            let i = name.split('-')[1];
+            let i = parseInt(name.split('-')[1]);
             if(!prevState[this.state.modalKey]['links']){
                 prevState[this.state.modalKey]['links'] = [value, ""]
             } else {
                 prevState[this.state.modalKey]['links'][i] = value;
             }
-            if(prevState[this.state.modalKey]['links'].length - 1 == i) {
+            if(prevState[this.state.modalKey]['links'].length - 1 === i) {
                 prevState[this.state.modalKey]['links'].push("")
             }
         } else {

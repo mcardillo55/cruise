@@ -56,20 +56,20 @@ class SurveyForm extends Component {
                 <ExpandingTextInput data={formData.links} label="Links provided during talk:" onChange={this.props.onChange}/>
                 <Form.Group>
                     <Form.Label>What specific topics in the talk were interesting?</Form.Label>
-                    <Form.Control value={formData.interesting_topics} name="interesting_topics" onChange={this.props.onChange}/>
+                    <Form.Control value={formData.interesting_topics || ""} name="interesting_topics" onChange={this.props.onChange}/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>What specific topics in the talk were uninteresting?</Form.Label>
-                    <Form.Control value={formData.uninteresting_topics} name="uninteresting_topics" onChange={this.props.onChange}/>
+                    <Form.Control value={formData.uninteresting_topics || ""} name="uninteresting_topics" onChange={this.props.onChange}/>
                 </Form.Group>
                 <RatingInput data={formData.rating} label="From 1-10, how would you rate the talk?" onChange={this.props.onChange}/>
                 <Form.Group>
                     <Form.Label>Other feedback?</Form.Label>
-                    <Form.Control value={formData.other_feedback} name="other_feedback" onChange={this.props.onChange}/>
+                    <Form.Control value={formData.other_feedback || ""} name="other_feedback" onChange={this.props.onChange}/>
                 </Form.Group>
                 <Button onClick={this.submitForm}>Submit</Button>
             </Form>
-            <Alert className="mt-2" show={this.state.showAlert} variant={this.state.variant}>{this.state.alertText}</Alert>
+            <Alert className="mt-2" show={this.state.showAlert} variant={this.state.variant} onClose={()=>{}}>{this.state.alertText}</Alert>
             </>
         );
     }
