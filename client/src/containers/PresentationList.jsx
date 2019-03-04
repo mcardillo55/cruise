@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Table from 'react-bootstrap/Table'
+import ListGroup from 'react-bootstrap/ListGroup'
 import Modal from 'react-bootstrap/Modal'
 import SurveyForm from '../components/SurveyForm'
 
@@ -81,24 +81,13 @@ class PresentationList extends Component {
         } else {
             return (
                 <>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Presenter(s)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {presentations.map((item, i) => {
-                            return(
-                                <tr key={i} onClick={() => this.handleShow(i)}>
-                                    <th>{item.title}</th>
-                                    <th>{item.presenter}</th>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table>
+                <ListGroup>
+                    {presentations.map((item, i) => {
+                        return(
+                            <ListGroup.Item action key={i} onClick={() => this.handleShow(i)}>{item.title} - {item.presenter}</ListGroup.Item>
+                        )
+                    })}
+                </ListGroup>
 
                 <Modal size="lg" show={this.state.showModal} onHide={this.handleClose}>
                     <Modal.Header closeButton>
