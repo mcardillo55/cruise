@@ -77,8 +77,11 @@ class PresentationList extends Component {
         .then(
             (result) => {
                 let prevState = [...this.state.formData];
-                if(result) {
+                if(result && result.length) {
                     prevState[i] = result[0]
+                    if(prevState[i].links) {
+                        prevState[i].links = prevState[i].links.split(' ')
+                    }
                 }
                 this.setState({
                     showModal: true,
