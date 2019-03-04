@@ -23,4 +23,18 @@ router.post('/presentations', function(req, res, next) {
   res.send(req.body)
 });
 
+router.get('/survey', function(req, res, next) {
+  let options = { attributes: { exclude: ['id', 'createdAt', 'updatedAt'] } }
+  if(req.query.id) {
+    options = {...options, where: { presentationID: req.query.id } }
+  }
+  Survey.findAll(options)
+  .then((row) => {
+    res.send(row)
+  })
+  .catch((error) => {
+    res.send([])
+  })
+})
+
 module.exports = router;
