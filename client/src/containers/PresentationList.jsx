@@ -76,7 +76,6 @@ class PresentationList extends Component {
         .then(res => res.json())
         .then(
             (result) => {
-                console.log(result)
                 let prevState = [...this.state.formData];
                 if(result) {
                     prevState[i] = result[0]
