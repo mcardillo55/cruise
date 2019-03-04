@@ -17,6 +17,7 @@ class SurveyForm extends Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.props.data)
         })
+        this.props.onHide();
     }
     render(){
         let formData = this.props.data || {};

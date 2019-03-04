@@ -117,7 +117,7 @@ class PresentationList extends Component {
                         <Modal.Title>{this.state.presentations[this.state.modalKey].title}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <SurveyForm data={this.state.formData[this.state.modalKey]} onChange={this.handleChange}/>
+                        <SurveyForm data={this.state.formData[this.state.modalKey]} onChange={this.handleChange} onHide={this.handleClose}/>
                     </Modal.Body>
                 </Modal>
                 </>
