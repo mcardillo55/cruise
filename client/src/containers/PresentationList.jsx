@@ -25,10 +25,17 @@ class PresentationList extends Component {
         .then(res => res.json())
         .then(
             (result) => {
+                let formData;
+                if(localStorage.getItem('formData')) {
+                    formData = JSON.parse(localStorage.getItem('formData'))
+                } else {
+                    formData = Array(result.length)
+                }
+
                 this.setState({
                     isLoaded: true,
                     presentations: result,
-                    formData: Array(result.length)
+                    formData: formData
                 })
             },
             (error) => {
@@ -62,6 +69,7 @@ class PresentationList extends Component {
         this.setState({
             formData: prevState
         })
+        localStorage.setItem('formData', JSON.stringify(prevState));
     }
     handleShow(i) {
         this.setState({
