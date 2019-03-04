@@ -84,12 +84,16 @@ class PresentationList extends Component {
                     }
                 }
                 this.setState({
-                    showModal: true,
-                    modalKey: i,
                     formData: prevState
-                });
+                })
             }
         )
+        .finally(() => {
+            this.setState({
+                    showModal: true,
+                    modalKey: i,
+                });
+        })
 
     }
     handleClose() {
