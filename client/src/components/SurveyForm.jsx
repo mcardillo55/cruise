@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
+import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import YesNoRadio from './YesNoRadio'
 import RatingInput from './RatingInput'
 import ExpandingTextInput from './ExpandingTextInput'
 
 class SurveyForm extends Component {
+    constructor(props) {
+        super(props)
+
+        this.submitForm = this.submitForm.bind(this)
+    }
+    submitForm() {
+        fetch("/api/presentations", {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.props.data)
+        })
+    }
     render(){
         let formData = this.props.data || {};
         return(
@@ -25,6 +38,7 @@ class SurveyForm extends Component {
                     <Form.Label>Other feedback?</Form.Label>
                     <Form.Control value={formData.other_feedback} name="other_feedback" onChange={this.props.onChange}/>
                 </Form.Group>
+                <Button onClick={this.submitForm}>Submit</Button>
             </Form>
         );
     }
