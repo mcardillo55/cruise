@@ -72,10 +72,23 @@ class PresentationList extends Component {
         localStorage.setItem('formData', JSON.stringify(prevState));
     }
     handleShow(i) {
-        this.setState({
-            showModal: true,
-            modalKey: i
-        });
+        fetch("/api/survey?id=" + this.state.presentations[i].id)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                console.log(result)
+                let prevState = [...this.state.formData];
+                if(result) {
+                    prevState[i] = result[0]
+                }
+                this.setState({
+                    showModal: true,
+                    modalKey: i,
+                    formData: prevState
+                });
+            }
+        )
+
     }
     handleClose() {
         this.setState({ showModal: false });
