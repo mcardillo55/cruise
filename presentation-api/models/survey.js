@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../db/sequelize')
+const Presentation = require('../models/presentation')
 
 const Survey = sequelize.define('survey', {
     interesting: Sequelize.BOOLEAN,
@@ -9,5 +10,7 @@ const Survey = sequelize.define('survey', {
     rating: Sequelize.INTEGER,
     other_feedback: Sequelize.STRING
 });
+
+Survey.belongsTo(Presentation, { foreignKey: 'presentationID' })
 
 module.exports = Survey;
