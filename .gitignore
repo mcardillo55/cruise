@@ -1,2 +1,3 @@
 node_modules/
 presentation-api/db/db.sqlite
+build/
