@@ -19,7 +19,7 @@ class SurveyForm extends Component {
         }
     }
     submitForm() {
-        fetch("/api/presentations", {
+        fetch("/api/survey", {
             method: 'POST', 
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.props.data)

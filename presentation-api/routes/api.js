@@ -18,7 +18,7 @@ router.get('/presentations', function(req, res, next) {
   })
 });
 
-router.post('/presentations', function(req, res, next) {
+router.post('/survey', function(req, res, next) {
   if(req.body.links){
     req.body.links = req.body.links.join(' ')
   }

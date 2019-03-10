@@ -58,7 +58,7 @@ function tryOrCache() {
 
 worker.get(root + 'api/presentations', tryOrCache())    
 
-worker.post(root + 'api/presentations', tryOrFallback(new Response(null, {
+worker.post(root + 'api/survey', tryOrFallback(new Response(null, {
     status: 202
   })));
 
