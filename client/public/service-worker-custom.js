@@ -27,12 +27,42 @@ function tryOrFallback(fakeResponse) {
         });
       };
     }
-    
-    
+
+function tryOrCache() {
+  return function (req, res) {
+    return caches.open('mycache').then(function(cache) {
+      return fetch(req)
+      .then(function(res) {
+        orig_res = res.clone()
+        if(res.ok) {
+          // From fetch
+          cache.put(req.clone(), res.clone())
+          return res
+        } else {
+          // From Cache
+          return cache.match(req.clone())
+          .then(function(res) {
+            if(res) {
+              // Cache hit
+              return res
+            }
+              // Cache miss
+              return orig_res
+          })
+        }
+      })
+    })
+  }
+}
+
+
+worker.get(root + 'api/presentations', tryOrCache())    
 
 worker.post(root + 'api/presentations', tryOrFallback(new Response(null, {
     status: 202
   })));
+
+worker.use(new self.StaticCacher(['https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css']));
 
 worker.init();
 
