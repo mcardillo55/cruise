@@ -76,7 +76,10 @@ class PresentationList extends Component {
     }
     handleShow(i) {
         fetch("/api/survey?id=" + this.state.presentations[i].id)
-        .then(res => res.json())
+        .then(res => {
+            if(res.ok) 
+                return res.json()
+        })
         .then(
             (result) => {
                 let prevState = [...this.state.formData];
