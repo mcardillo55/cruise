@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup'
 import Modal from 'react-bootstrap/Modal'
 import SurveyForm from '../components/SurveyForm'
+import localforage from 'localforage'
 
 class PresentationList extends Component {
     constructor(props) {
@@ -26,16 +27,14 @@ class PresentationList extends Component {
         .then(
             (result) => {
                 let formData;
-                if(localStorage.getItem('formData')) {
-                    formData = JSON.parse(localStorage.getItem('formData'))
-                } else {
-                    formData = Array(result.length)
-                }
-
-                this.setState({
-                    isLoaded: true,
-                    presentations: result,
-                    formData: formData
+                localforage.getItem('formData')
+                .then((value) => {
+                    formData = value ? JSON.parse(value) : Array(result.length)
+                    this.setState({
+                        isLoaded: true,
+                        presentations: result,
+                        formData: formData
+                    })
                 })
             },
             (error) => {
@@ -72,7 +71,7 @@ class PresentationList extends Component {
         this.setState({
             formData: prevState
         })
-        localStorage.setItem('formData', JSON.stringify(prevState));
+        localforage.setItem('formData', JSON.stringify(prevState));
     }
     handleShow(i) {
         fetch("/api/survey?id=" + this.state.presentations[i].id)
