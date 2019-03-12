@@ -21,7 +21,35 @@ class PresentationList extends Component {
             formData: []
         };
     }
+    sendNotification(msg) {
+        // Based off of https://developer.mozilla.org/en-US/docs/Web/API/notification
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+          return
+        }
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+          // If it's okay let's create a notification
+          var notification = new Notification(msg);
+        }
+        // Otherwise, we need to ask the user for permission
+        else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then(function (permission) {
+            // If the user accepts, let's create a notification
+            if (permission === "granted") {
+              var notification = new Notification(msg);
+            }
+          });
+        }
+        // At last, if the user has denied notifications, and you 
+        // want to be respectful there is no need to bother them any more.
+      }
     componentDidMount() {
+        localforage.getItem('queue', (err, value) => {
+            if(value && value.length > 0) {
+                this.sendNotification(value.length + " submission" + ((value.length > 1) ? "s are":" is") + " waiting in offline queue!")
+            }
+        })
         fetch("/api/presentations")
         .then(res => res.json())
         .then(
