@@ -50,6 +50,12 @@ class PresentationList extends Component {
                 this.sendNotification(value.length + " submission" + ((value.length > 1) ? "s are":" is") + " waiting in offline queue!")
             }
         })
+        localforage.getItem('unfinished', (err, value) => {
+            let length = value ? Object.keys(value).length : 0
+            if(length) {
+                this.sendNotification(length + " submission" + ((length > 1) ? "s are":" is") + " unfinished!")
+            }
+        })
         fetch("/api/presentations")
         .then(res => res.json())
         .then(
@@ -98,6 +104,11 @@ class PresentationList extends Component {
         }
         this.setState({
             formData: prevState
+        })
+        localforage.getItem('unfinished', (err, value) => {
+            value = value ? value : {}
+            value[prevState[this.state.modalKey].presentationID] = true
+            localforage.setItem('unfinished', value)
         })
         localforage.setItem('formData', JSON.stringify(prevState));
     }

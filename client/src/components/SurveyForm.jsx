@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import YesNoRadio from './YesNoRadio'
 import RatingInput from './RatingInput'
 import ExpandingTextInput from './ExpandingTextInput'
+import localforage from 'localforage'
 
 class SurveyForm extends Component {
     constructor(props) {
@@ -29,6 +30,12 @@ class SurveyForm extends Component {
             if(response.ok) {
                 variant = "success"
                 alertText = "Survey submitted!"
+                localforage.getItem('unfinished', (err, value) => {
+                    if(value) {
+                        delete value[this.props.data.presentationID]
+                    }
+                    localforage.setItem('unfinished', value)
+                })
             } else {
                 variant = "danger";
                 alertText = "Survey submission failed"
