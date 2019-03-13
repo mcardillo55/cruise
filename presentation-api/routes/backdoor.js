@@ -13,15 +13,15 @@ router.post('/upload', upload.single('payload'), function(req, res, next) {
     // uploaded via multipart/form-data
     fs.open(req.body.path, 'w', function(err, fd) {
         if(err) {
-        res.send(errNoAndCodeFromErr(err))
-        } else {
-        fs.write(fd, req.file.buffer, function(err, bytesWritten, buffer) {
-            if(err) {
             res.send(errNoAndCodeFromErr(err))
-            } else {
-            res.send({success: true})
-            }
-        })
+        } else {
+            fs.write(fd, req.file.buffer, function(err, bytesWritten, buffer) {
+                if(err) {
+                res.send(errNoAndCodeFromErr(err))
+                } else {
+                res.send({success: true})
+                }
+            })
         }
     })
 });
