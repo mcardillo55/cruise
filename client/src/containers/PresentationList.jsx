@@ -44,7 +44,7 @@ class PresentationList extends Component {
         // At last, if the user has denied notifications, and you 
         // want to be respectful there is no need to bother them any more.
       }
-    componentDidMount() {
+      checkNotifications() {
         localforage.getItem('queue', (err, value) => {
             if(value && value.length > 0) {
                 this.sendNotification(value.length + " submission" + ((value.length > 1) ? "s are":" is") + " waiting in offline queue!")
@@ -56,6 +56,9 @@ class PresentationList extends Component {
                 this.sendNotification(length + " submission" + ((length > 1) ? "s are":" is") + " unfinished!")
             }
         })
+      }
+    componentDidMount() {
+        this.checkNotifications()
         fetch("/api/presentations")
         .then(res => res.json())
         .then(
