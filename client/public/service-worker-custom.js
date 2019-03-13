@@ -68,7 +68,8 @@ worker.post(root + 'api/survey', tryOrFallback(new Response(null, {
     status: 202
   })));
 
-worker.use(new self.StaticCacher(['https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css']));
+worker.use(new self.StaticCacher(['https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css', '/js/ServiceWorkerWare.js', '/js/localforage.min.js']));
+worker.use(new self.SimpleOfflineCache())
 
 worker.init();
 
