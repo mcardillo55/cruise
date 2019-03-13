@@ -19,6 +19,7 @@ router.get('/presentations', function(req, res, next) {
 });
 
 router.post('/survey', function(req, res, next) {
+  // Serialize the 'links' array to store as a space-separated string
   if(req.body.links){
     req.body.links = req.body.links.join(' ')
   }
@@ -26,6 +27,8 @@ router.post('/survey', function(req, res, next) {
   res.send(req.body)
 });
 
+// Responds with single survey entry if 'id' field is included,
+// otherwise will return all submitted surveys in DB
 router.get('/survey', function(req, res, next) {
   let options = { attributes: { exclude: ['createdAt', 'updatedAt'] } }
   if(req.query.id) {

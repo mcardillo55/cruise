@@ -61,6 +61,8 @@ class PresentationList extends Component {
         .then(
             (result) => {
                 let formData;
+                // Check for previously entered form data in localforage,
+                // or else initialize Array the size of # of presentations
                 localforage.getItem('formData')
                 .then((value) => {
                     formData = value ? JSON.parse(value) : Array(result.length)
@@ -90,12 +92,14 @@ class PresentationList extends Component {
         }
 
         if(name.startsWith('links')) {
+            // First, get index of link element we are dealing with
             let i = parseInt(name.split('-')[1]);
             if(!prevState[this.state.modalKey]['links']){
                 prevState[this.state.modalKey]['links'] = [value, ""]
             } else {
                 prevState[this.state.modalKey]['links'][i] = value;
             }
+            // If we change the last field in interesting links, add a new (empty) field
             if(prevState[this.state.modalKey]['links'].length - 1 === i) {
                 prevState[this.state.modalKey]['links'].push("")
             }
@@ -105,14 +109,18 @@ class PresentationList extends Component {
         this.setState({
             formData: prevState
         })
+        // Any change event will place the survey in an 'unfinished' state.
+        // Once the survey is submitted, the submitForm function will remove it.
         localforage.getItem('unfinished', (err, value) => {
             value = value ? value : {}
             value[prevState[this.state.modalKey].presentationID] = true
             localforage.setItem('unfinished', value)
         })
+        // Update all changes into localforage
         localforage.setItem('formData', JSON.stringify(prevState));
     }
     handleShow(i) {
+        // Check if a form submission already exists in DB
         fetch("/api/survey?id=" + this.state.presentations[i].id)
         .then(res => {
             if(res.ok) 
@@ -123,6 +131,7 @@ class PresentationList extends Component {
                 let prevState = [...this.state.formData];
                 if(result && result.length) {
                     prevState[i] = result[0]
+                    // Deserialize links from space-separated DB representation
                     if(prevState[i].links) {
                         prevState[i].links = prevState[i].links.split(' ')
                     }

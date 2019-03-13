@@ -12,6 +12,9 @@ var root = (function() {
 
 var worker = new ServiceWorkerWare();
 
+// This function will enqueue any requests sent to it while the browser
+// determines that there is no network connectivity. Once another request
+// comes in while there is network connectivity, the queue is processed.
 function tryOrFallback(fakeResponse) {
       return function(req, res) {
         if (!navigator.onLine) {
@@ -28,6 +31,9 @@ function tryOrFallback(fakeResponse) {
       };
     }
 
+// This function first tries to fetch(), on failure it will look for a
+// corresponding cache entry. If fetch() fails and cache entry does not
+// exist, it will return the response from the original fetch()
 function tryOrCache() {
   return function (req, res) {
     return caches.open('mycache').then(function(cache) {

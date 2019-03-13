@@ -28,6 +28,7 @@ class SurveyForm extends Component {
         .then((response) => {
             let variant, alertText;
             if(response.ok) {
+                // Show 'success' alert and remove survey from 'unfinished' surveys
                 variant = "success"
                 alertText = "Survey submitted!"
                 localforage.getItem('unfinished', (err, value) => {
