@@ -31,44 +31,14 @@ function tryOrFallback(fakeResponse) {
       };
     }
 
-// This function first tries to fetch(), on failure it will look for a
-// corresponding cache entry. If fetch() fails and cache entry does not
-// exist, it will return the response from the original fetch()
-function tryOrCache() {
-  return function (req, res) {
-    return caches.open('mycache').then(function(cache) {
-      return fetch(req)
-      .then(function(res) {
-        orig_res = res.clone()
-        if(res.ok) {
-          // From fetch
-          cache.put(req.clone(), res.clone())
-          return res
-        } else {
-          // From Cache
-          return cache.match(req.clone())
-          .then(function(res) {
-            if(res) {
-              // Cache hit
-              return res
-            }
-              // Cache miss
-              return orig_res
-          })
-        }
-      })
-    })
-  }
-}
-
-
-worker.get(root + 'api/presentations', tryOrCache())    
-
 worker.post(root + 'api/survey', tryOrFallback(new Response(null, {
     status: 202
   })));
 
-worker.use(new self.StaticCacher(['https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css', '/js/ServiceWorkerWare.js', '/js/localforage.min.js']));
+worker.use(new self.StaticCacher(['https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css',
+                                  '/api/presentations',
+                                  '/js/ServiceWorkerWare.js',
+                                  '/js/localforage.min.js']));
 worker.use(new self.SimpleOfflineCache())
 
 worker.init();
